@@ -3,7 +3,7 @@
 module "eks" {
   source                         = "terraform-aws-modules/eks/aws"
   version                        = "~> 20.0"
-  cluster_name                   = "my-cluster"
+  cluster_name                   = "cluster"
   cluster_version                = "1.30"
   iam_role_arn                   = "arn:aws:iam::730335498446:role/my-eks-cluster-role"
   vpc_id                         = module.vpc.vpc_id
@@ -57,7 +57,6 @@ module "eks" {
   }
 
   tags = {
-    Name        = "my-cluster"
     Environment = "dev"
     Terraform   = "true"
   }
