@@ -10,13 +10,18 @@ module "eks" {
   subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
-  /*
-    cluster_addons = {
+  cluster_security_group_id = module.sg.security_group_id
+
+  depends_on = [module.sg]
+
+
+
+  cluster_addons = {
     coredns                = {}
     eks-pod-identity-agent = {}
     kube-proxy             = {}
     vpc-cni                = {}
-  }*/
+  }
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -25,13 +30,15 @@ module "eks" {
 
   eks_managed_node_groups = {
     cluster_nodes = {
-      ami_type       = "AL2_x86_64"
-      instance_types = ["t3.medium"]
-      node_role_arn  = "arn:aws:iam::730335498446:role/my-nodegroup-role"
+      ami_type      = "AL2_x86_64"
+      capacity_type = "ON_DEMAND"
+      Disk_Size     = 20
+      node_role_arn = "arn:aws:iam::730335498446:role/my-nodegroup-role"
 
-      min_size     = 2
-      max_size     = 2
-      desired_size = 2
+      min_size        = 1
+      max_size        = 1
+      desired_size    = 1
+      security_groups = [module.sg.security_group_id]
     }
   }
 
@@ -62,7 +69,7 @@ module "eks" {
   }
 }
 
-
+/*
 resource "null_resource" "setup_argocd" {
   provisioner "local-exec" {
     command = "./deploy-argocd.sh ${module.eks.cluster_name} ${var.aws_region}"
@@ -70,3 +77,4 @@ resource "null_resource" "setup_argocd" {
 
   depends_on = [module.eks]
 }
+*/

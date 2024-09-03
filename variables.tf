@@ -16,6 +16,5 @@ variable "private_subnets" {
 
 variable "aws_region" {
   type    = string
-  default = "eu-north-1"
+  default = "ap-south-1"
 }
-
