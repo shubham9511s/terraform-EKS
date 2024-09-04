@@ -21,11 +21,12 @@ module "eks" {
     eks-pod-identity-agent = {}
     kube-proxy             = {}
     vpc-cni                = {}
+    aws-ebs-csi-driver     = {}
   }
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["t3.medium"]
+    instance_types = ["t2.large"]
   }
 
   eks_managed_node_groups = {
@@ -35,9 +36,9 @@ module "eks" {
       Disk_Size     = 20
       node_role_arn = "arn:aws:iam::730335498446:role/my-nodegroup-role"
 
-      min_size        = 1
-      max_size        = 1
-      desired_size    = 1
+      min_size        = 2
+      max_size        = 2
+      desired_size    = 2
       security_groups = [module.sg.security_group_id]
     }
   }
